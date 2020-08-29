@@ -46,7 +46,14 @@ def main():
     elif opcion == 2:
        
         nfa = NFA()
-        nfa.nfa2dfa(alphabet, states, initial_states, final_states, transitions, str_test)
+        nfa.nfa2dfa(alphabet, states, initial_states, final_states, transitions)
+        
+        print("esta aqui")
+        print("Alphabet: ",alphabet)
+        print("States: ",states)
+        print("Initial States: ",initial_states)
+        print("Final States: ",final_states)
+        print("Transitions: ",transitions)
 
     elif opcion == 3:
         print("Opcion 3")

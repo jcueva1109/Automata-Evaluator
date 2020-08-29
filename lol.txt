@@ -72,3 +72,40 @@ class NFA:
     def init_states(self):
         self.states = list(range(self.states))
     
+---------------------------
+
+for index in _input:
+            if _input[index] == alfabeto[0]:
+                for i in states:
+                    res = list(map(" ".join, states))
+                    print("Diosito pofavo: ", res)
+
+["A","0","A"],
+["A","2","A"],
+["A","0","B"],
+
+alphabeto= 0,1,2
+
+[a]
+res=[a]
+funca(xx,transiciones,alfabeto):
+    res=[[A,B],[/],[A]]
+    for a in alfato:
+        tr=[]      
+        for t in transiciones:
+            for x in xx:
+            if t[0]==x and t[1]==a:     hay una transicion
+                tr.append(t[2])             guardo a donde me lleva 
+        
+        if len(tr)==0:
+            tr.append("/")
+
+        res.append(tr)
+return [xx,res]     estado y sus transiciones
+[A,[[A,B],[/],[A]]]
+
+
+##ejemplo##
+        #         0       1       2
+        # [a,       [[a,b],  a,    c]]
+        # [[a,b]    [a, ab]

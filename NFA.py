@@ -1,46 +1,74 @@
+import copy
+
 class NFA:
     def __init(self):
         pass
 
-    def nfa_evaluate(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
-        current_state = initial_state
-        final = True
+    def union(self, alfabeto, estados, transiciones):
+        res = []
 
-        for char_index in range(len(str_test)):
-            current_char = str_test[char_index]
-            existe = True       
+        for alfa in alfabeto:
+            tr = []
+            for t in transiciones:
+                for index in estados:
+                    if t[0] == index and t[1] == alfa:      #Hay una transicion entre Estado y Alfabeto
+                        tr.append(t[2])                       #Entonces guardamos adonde nos lleva
 
-            for t in transitions:
-                if current_state == t[0] and current_char == t[1]:
-                    current_state = t[2]
-                    existe = False
-                    break
-            if existe:
-                final = False
-                break
+            if len(tr) == 0:                            #Si no hay transicion guardamos un valor nulo
+                tr.append("/")
 
-        if current_state in accepting_states and final:
-            print("Pertenece a L(M)")
-        else:
-            print("No pertenece a L(M)")
-        pass
-    
-    def union(self, states):
-        return tuple( i for i in states)
-        pass
+        res.append(tr)
+        return [estados, res]                               #Retornamos el estado con sus transacciones
 
-    def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
 
-        current_state = initial_state
+    def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions):
 
-        for alpha in alphabet:
-            _input = alpha[0]
-            print("Input: ", _input)
+        #Hacemos la copia del archivo para manipular los datos
+        alpha = copy.deepcopy(alphabet)
+        stat = copy.deepcopy(states)
+        i_stat = copy.deepcopy(initial_state)
+        a_stat = copy.deepcopy(accepting_states)
+        trans = copy.deepcopy(transitions)
 
-        print("\n")
-        for char_index in range(len(str_test)):
-            current_char = str_test[char_index]
-            for t in transitions:
-                if current_state == t[0] and _input == t[1]:
-                    print(self.union(t[2]))
-        pass
+        # borrramos info que cambia de nfa a dfa
+        states.clear()  
+        accepting_states.clear()
+        transitions.clear()
+
+        #   funcion a crear combinacion
+
+        #  estados       0       1       2
+        # [a,       [[a,b],  a,    c]]
+        # [[a,b]    [a, ab]
+
+        nfaTable = [self.union(alpha, stat, trans)]
+      
+        # nfaTable = 
+        # x = estado
+        # y = transiciones de x
+
+        for x in nfaTable:      #estados
+            for y in x[1]:
+                if y not in x[0]:       #transiciones
+                    # CREAR LA COMBI
+                    res = self.union(alpha, x, y)
+                    #nfaTable.append(mandas la combi)
+                    nfaTable.append(res)
+
+        for x in nfaTable:
+
+            if x[0] not in states:
+                states.append(x[0])
+
+            for i in range(len(alpha)):
+                tran=[x[0],alpha[i],x[1][i]]
+                if x[1][i] not in states:
+                    states.append(x[1][i])
+
+                if tran[2] != "/":
+                    transitions.append(tran)
+
+        for x in states:
+            for y in a_stat:
+                if y in x:
+                    accepting_states.append(x)
