@@ -17,9 +17,10 @@ class NFA:
             if len(tr) == 0:                            #Si no hay transicion guardamos un valor nulo
                 tr.append("/")
 
-        res.append(tr)
-        return [estados, res]                               #Retornamos el estado con sus transacciones
-
+            res.append(tr)
+        var = [estados, res]
+       
+        return var                               #Retornamos el estado con sus transacciones
 
     def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions):
 
@@ -30,31 +31,34 @@ class NFA:
         a_stat = copy.deepcopy(accepting_states)
         trans = copy.deepcopy(transitions)
 
-        # borrramos info que cambia de nfa a dfa
+        #Borramos datos para pasar NFA -> DFA
         states.clear()  
         accepting_states.clear()
         transitions.clear()
 
-        #   funcion a crear combinacion
-
-        #  estados       0       1       2
-        # [a,       [[a,b],  a,    c]]
-        # [[a,b]    [a, ab]
-
-        nfaTable = [self.union(alpha, stat, trans)]
-      
-        # nfaTable = 
-        # x = estado
-        # y = transiciones de x
+        var = self.union(alpha, i_stat, trans)
+        nfaTable = [var]
+        
+        # nfaTable = [x = estado] [y = transiciones de x]
 
         for x in nfaTable:      #estados
             for y in x[1]:
-                if y not in x[0]:       #transiciones
-                    # CREAR LA COMBI
-                    res = self.union(alpha, x, y)
-                    #nfaTable.append(mandas la combi)
-                    nfaTable.append(res)
+                diosito = True
+                for z in nfaTable:
+                    if y == z[0]:       #transiciones
+                        diosito = False #revisamos si existe el nuevo estado
+                    
+                if diosito:
+                    res = self.union(alpha, y, trans)
+                    if res not in nfaTable:
+                        nfaTable.append(res)
 
+        #Eliminamos alguna transicion repetida
+        for index in nfaTable:
+            if index == var:
+                nfaTable.remove(index)
+
+        #Creamos los nuevos estados, con sus transiciones
         for x in nfaTable:
 
             if x[0] not in states:
@@ -72,3 +76,11 @@ class NFA:
             for y in a_stat:
                 if y in x:
                     accepting_states.append(x)
+
+        print("Alphabet: ",alphabet)
+        print("States: ",states)
+        print("Initial States: ",initial_state)
+        print("Final States: ",accepting_states)
+        print("Transitions: ",transitions)
+        
+        pass

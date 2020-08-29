@@ -17,10 +17,10 @@ def main():
     opcion = int(input())
     print("\n")
 
-    selectedFile = filedialog.askopenfilename()
-    
+    #selectedFile = filedialog.askopenfilename()
+    #print(selectedFile)
     #Opening JSON File
-    f = open(selectedFile,)
+    f = open("C:/Users/jesus/Downloads/NFA Examples/SimpleNFA_4_.json")
 
     #Returns JSON object as a dictionary
     data = json.load(f)
@@ -48,13 +48,6 @@ def main():
         nfa = NFA()
         nfa.nfa2dfa(alphabet, states, initial_states, final_states, transitions)
         
-        print("esta aqui")
-        print("Alphabet: ",alphabet)
-        print("States: ",states)
-        print("Initial States: ",initial_states)
-        print("Final States: ",final_states)
-        print("Transitions: ",transitions)
-
     elif opcion == 3:
         print("Opcion 3")
     elif opcion == 4:
