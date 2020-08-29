@@ -145,3 +145,21 @@ for x in nfaTable:      #estados
         print("Initial States: ",initial_state)
         print("Final States: ",accepting_states)
         print("Transitions: ",transitions)
+
+-------------------------------------------
+
+            existe = True       #si encontramos o no un estado
+            for t in transitions: 
+                if current_state == t[0] and current_char == t[1]:
+                    current_state = t[2]
+                    existe = False
+                    break
+            
+            if existe:
+                final = False       #Para saber si se recorrio toda la cadena
+                break
+
+
+            for index in nfaTable:
+                if index == var:
+                    nfaTable.remove(index)

@@ -1,4 +1,5 @@
 import copy
+from DFA import *
 
 class NFA:
     def __init(self):
@@ -22,7 +23,7 @@ class NFA:
        
         return var                               #Retornamos el estado con sus transacciones
 
-    def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions):
+    def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
 
         #Hacemos la copia del archivo para manipular los datos
         alpha = copy.deepcopy(alphabet)
@@ -77,10 +78,15 @@ class NFA:
                 if y in x:
                     accepting_states.append(x)
 
-        print("Alphabet: ",alphabet)
-        print("States: ",states)
-        print("Initial States: ",initial_state)
-        print("Final States: ",accepting_states)
-        print("Transitions: ",transitions)
+        # print("Alphabet: ",alphabet)
+        # print("States: ",states)
+        # print("Initial States: ",initial_state)
+        # print("Final States: ",accepting_states)
+        # print("Transitions: ",transitions)
+
+        dfa = DFA()
+        dfa.dfa_evaluate(alphabet, states, initial_state, accepting_states, transitions, str_test)
+
+        #Aqui graficamos el DFA
         
         pass
