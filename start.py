@@ -9,6 +9,8 @@ def main():
     print("     Bienvenido")
     print("Porfavor ingresa tu archivo: ")
     
+    root = tk.Tk()
+    root.withdraw()
     selectedFile = filedialog.askopenfilename()
     #Opening JSON File
     f = open(selectedFile,)
