@@ -11,9 +11,13 @@ class NFA:
         for alfa in alfabeto:
             tr = []
             for t in transiciones:
-                for index in estados:
-                    if t[0] == index and t[1] == alfa:      #Hay una transicion entre Estado y Alfabeto
+                if type(estados) != type(res):
+                    if t[0] == estados and t[1] == alfa:      #Hay una transicion entre Estado y Alfabeto
                         tr.append(t[2])                       #Entonces guardamos adonde nos lleva
+                else:    
+                    for index in estados:
+                        if t[0] == index and t[1] == alfa:      #Hay una transicion entre Estado y Alfabeto
+                            tr.append(t[2])                       #Entonces guardamos adonde nos lleva
 
             if len(tr) == 0:                            #Si no hay transicion guardamos un valor nulo
                 tr.append("/")
@@ -55,9 +59,12 @@ class NFA:
                         nfaTable.append(res)
 
         #Eliminamos alguna transicion repetida
-        for index in nfaTable:
-            if index == var:
-                nfaTable.remove(index)
+        newtable=[]
+        for index in range(len(nfaTable)):
+            for ind in range(index,len(nfaTable)):
+                    if nfaTable[index] == nfaTable[ind]:
+                        newtable.append(nfaTable[ind])
+                        break
 
         #Creamos los nuevos estados, con sus transiciones
         for x in nfaTable:
@@ -78,15 +85,14 @@ class NFA:
                 if y in x:
                     accepting_states.append(x)
 
-        # print("Alphabet: ",alphabet)
-        # print("States: ",states)
-        # print("Initial States: ",initial_state)
-        # print("Final States: ",accepting_states)
-        # print("Transitions: ",transitions)
+        print("E-NFA -> NFA")
+        print("Alfabeto: ",alphabet)
+        print("Estados: ", states)
+        print("Estados iniciales: ", initial_state)
+        print("Estados finales: ", accepting_states)
+        print("Transiciones: ", transitions)
 
         dfa = DFA()
         dfa.dfa_evaluate(alphabet, states, initial_state, accepting_states, transitions, str_test)
 
-        #Aqui graficamos el DFA
-        
         pass

@@ -1,6 +1,7 @@
 #       IMPORTS     #
 from DFA import *
 from NFA import *
+from ENFA import *
 import json
 import tkinter as tk
 from tkinter import filedialog
@@ -29,15 +30,12 @@ def main():
 
     print("\nEvaluando automata...")
 
-    nfa = NFA()
-    nfa.nfa2dfa(alphabet, states, initial_states, final_states, transitions, str_test)
+    enfa = ENFA()
+    enfa.enfa2nfa(alphabet, states, initial_states, final_states, transitions, str_test)
 
     f.close()
-
 
     pass
 
 #       EJECUCION DE PROGRAMA       #
 main()
-
-#ejecucion: python -u fileName.py
