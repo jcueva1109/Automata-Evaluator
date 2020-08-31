@@ -5,6 +5,7 @@ from ENFA import *
 import json
 import tkinter as tk
 from tkinter import filedialog
+from time import time
 
 def main():
     print("     Bienvenido")
@@ -30,8 +31,13 @@ def main():
 
     print("\nEvaluando automata...")
 
+    tiempo_inicial = time()
+
     enfa = ENFA()
     enfa.enfa2nfa(alphabet, states, initial_states, final_states, transitions, str_test)
+
+    tiempo_final = time()
+    print("Tiempo de ejecucion fue de: ", (tiempo_final - tiempo_inicial))
 
     f.close()
 

@@ -1,23 +1,22 @@
 import copy
 from NFA import *
+from time import time
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class ENFA:
     def __init__(self):
         pass
 
-    def isENFA(self, alphabet):
-
-        exito = False
-
-        for alpha in alphabet:
-           if "E" in alpha:
-               exito = True
-        
-        return exito   
+    def convert(self, param):
+        return (*param,)
         pass
-
+    
     def enfa2nfa(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
-        
+
+        tiempo_inicial = time()
+        print(tiempo_inicial)
+
         #Hacemos la copia del archivo para manipular los datos
         alpha = copy.deepcopy(alphabet)
         stat = copy.deepcopy(states)
@@ -34,31 +33,48 @@ class ENFA:
             if t[1] != "E":
                 transitions.append(t)
         
+        G = nx.MultiDiGraph()
+
         for a in alphabet:
-            for s in stat:                              #este es el estado 
+            for s in stat:                              #Estado
                 for t in trans:
                     #Encontrar las transiciones con epsilon
                     if s == t[0] and t[1] == "E":
-                        #aqui encontras donde llegas con epsilon desde el estadp ejemplo [a,E,b] llegas a "b"
+                        ##Adonde voy con epsilon desde el estado actual
 
                         for t2 in trans:
                             if t[2] == t2[0] and t2[1] == a:
-                                #aqui tenes que encontrar a donde llegas con a->alphabet desde el "b" osea [b,a->alfabetp,??]
+                                #Encontramos el camino del estado con el input 
                                 
                                 for t3 in trans:
                                     if t2[2] == t3[0] and t3[1] == "E":
-                                        #aqui encontramos donde podemos llegar con epsilon desde el estado que podemos llegar desde el alfabeto del estado que llegamos con epsilon
-
+                                        #Por ultimo encontramos el camino donde podemos llegar con epsilon con el input del estado
+                                        
                                         lista = [s, a, t3[2]]
                                         if lista not in transitions:
                                             transitions.append(lista)
 
-        print("E-NFA -> NFA")
-        print("Alfabeto: ",alphabet)
-        print("Estados: ", states)
-        print("Estados iniciales: ", initial_state)
-        print("Estados finales: ", accepting_states)
-        print("Transiciones: ", transitions)
+        for x in states:
+            n = self.convert(x)
+            G.add_node(n)
+
+        # print("E-NFA -> NFA")
+        # print("Alfabeto: ",alphabet)
+        # print("Estados: ", states)
+        # print("Estados iniciales: ", initial_state)
+        # print("Estados finales: ", accepting_states)
+        # print("Transiciones: ", transitions)
+        
+        tiempo_final = time()
+        print(tiempo_final)
+        tiempo_ejecucion = tiempo_final - tiempo_inicial
+        print("El tiempo de ejecucion de la funcion E-NFA fue: ", tiempo_ejecucion)
+
+        nx.draw(G, with_labels=True)
+        plt.ion()
+        plt.show()
+        plt.pause(0.001)
+        input("Press [enter] to continue.")
         
         nfa = NFA()
         nfa.nfa2dfa(alphabet, states, initial_state, accepting_states, transitions, str_test)

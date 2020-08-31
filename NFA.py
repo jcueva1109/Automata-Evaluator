@@ -1,5 +1,8 @@
 import copy
 from DFA import *
+import networkx as nx
+import matplotlib.pyplot as plt
+from time import time
 
 class NFA:
     def __init(self):
@@ -27,7 +30,14 @@ class NFA:
        
         return var                               #Retornamos el estado con sus transacciones
 
+    def convert(self, param):
+        return (*param,)
+        pass
+
     def nfa2dfa(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
+
+        tiempo_inicial = time()
+        print(tiempo_inicial)
 
         #Hacemos la copia del archivo para manipular los datos
         alpha = copy.deepcopy(alphabet)
@@ -48,12 +58,12 @@ class NFA:
 
         for x in nfaTable:      #estados
             for y in x[1]:
-                diosito = True
+                existe = True
                 for z in nfaTable:
                     if y == z[0]:       #transiciones
-                        diosito = False #revisamos si existe el nuevo estado
+                        existe = False #revisamos si existe el nuevo estado
                     
-                if diosito:
+                if existe:
                     res = self.union(alpha, y, trans)
                     if res not in nfaTable:
                         nfaTable.append(res)
@@ -85,13 +95,31 @@ class NFA:
                 if y in x:
                     accepting_states.append(x)
 
-        print("E-NFA -> NFA")
-        print("Alfabeto: ",alphabet)
-        print("Estados: ", states)
-        print("Estados iniciales: ", initial_state)
-        print("Estados finales: ", accepting_states)
-        print("Transiciones: ", transitions)
+        G = nx.MultiDiGraph()
 
+        for x in states:
+            n = self.convert(x)
+            G.add_node(n)
+            # for t in transitions:
+            #     G.add_edge(t[2], t[0])
+
+        # print("NFA -> DFA")
+        # print("Alfabeto: ",alphabet)
+        # print("Estados: ", states)
+        # print("Estados iniciales: ", initial_state)
+        # print("Estados finales: ", accepting_states)
+        # print("Transiciones: ", transitions)
+
+        tiempo_final = time()
+        print(tiempo_final)
+        tiempo_ejecucion = tiempo_final - tiempo_inicial
+        print("El tiempo de ejecucion de la funcion NFA fue: ", tiempo_ejecucion)
+
+        nx.draw(G, with_labels = True)
+        plt.ion()
+        plt.show()
+        plt.pause(0.001)
+        input("Press [enter] to continue.")
         dfa = DFA()
         dfa.dfa_evaluate(alphabet, states, initial_state, accepting_states, transitions, str_test)
 
