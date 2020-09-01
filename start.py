@@ -35,7 +35,7 @@ def main():
 
     enfa = ENFA()
     enfa.enfa2nfa(alphabet, states, initial_states, final_states, transitions, str_test)
-
+    
     tiempo_final = time()
     print("Tiempo de ejecucion fue de: ", (tiempo_final - tiempo_inicial))
 

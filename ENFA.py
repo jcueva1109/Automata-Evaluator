@@ -8,10 +8,6 @@ class ENFA:
     def __init__(self):
         pass
 
-    def convert(self, param):
-        return (*param,)
-        pass
-    
     def enfa2nfa(self, alphabet, states, initial_state, accepting_states, transitions, str_test):
 
         tiempo_inicial = time()
@@ -54,9 +50,8 @@ class ENFA:
                                         if lista not in transitions:
                                             transitions.append(lista)
 
-        for x in states:
-            n = self.convert(x)
-            G.add_node(n)
+            for t in transitions:
+                G.add_edge(t[2], t[0])
 
         # print("E-NFA -> NFA")
         # print("Alfabeto: ",alphabet)
@@ -70,7 +65,7 @@ class ENFA:
         tiempo_ejecucion = tiempo_final - tiempo_inicial
         print("El tiempo de ejecucion de la funcion E-NFA fue: ", tiempo_ejecucion)
 
-        nx.draw(G, with_labels=True)
+        nx.draw(G, with_labels=True, node_color='#00b49d')
         plt.ion()
         plt.show()
         plt.pause(0.001)
