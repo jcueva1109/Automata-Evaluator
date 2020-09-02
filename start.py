@@ -33,8 +33,14 @@ def main():
 
     tiempo_inicial = time()
 
-    enfa = ENFA()
-    enfa.enfa2nfa(alphabet, states, initial_states, final_states, transitions, str_test)
+    # enfa = ENFA()
+    # enfa.enfa2nfa(alphabet, states, initial_states, final_states, transitions, str_test)
+
+    # nfa = NFA()
+    # nfa.nfa2dfa(alphabet, states, initial_states, final_states, transitions, str_test)
+
+    dfa = DFA()
+    dfa.dfa_evaluate(alphabet, states, initial_states, final_states, transitions, str_test)
     
     tiempo_final = time()
     print("Tiempo de ejecucion fue de: ", (tiempo_final - tiempo_inicial))
